@@ -1,74 +1,56 @@
 /**
- * QuantityMeasurementApp – UC1: Feet measurement equality
- * 
- * This class is responsible for checking the equality of two numerical values
- * measured in feet in the Quantity Measurement Application.
+ * QuantityMeasurementApp - UC3: Unified Quantity Measurement System.
  */
 package com.apps.quantitymeasurement;
 
 public class QuantityMeasurementApp {
-    
+
     /**
-     * Inner class to represent Feet measurement
-     * Provides immutability and encapsulation for feet values
+     * Backward-compatible wrapper for UC1 tests and usage.
      */
-    public static class Feet {
-        private final double value;
-        
-        /**
-         * Constructor to initialize Feet with a double value
-         * @param value the measurement in feet
-         */
+    public static class Feet extends Length {
         public Feet(double value) {
-            this.value = value;
-        }
-        
-        /**
-         * Override equals() method to compare two Feet objects
-         * Implements the Equality Contract:
-         * - Reflexive: a.equals(a) returns true
-         * - Symmetric: if a.equals(b) then b.equals(a)
-         * - Transitive: if a.equals(b) and b.equals(c) then a.equals(c)
-         * - Consistent: multiple calls return the same result
-         * 
-         * Important Checks:
-         * 1. Reference Check: If both references point to the same object, return true
-         * 2. Null Check: If the compared object is null, return false
-         * 3. Type Check: If the objects are not of the same type, return false
-         * 4. Value Comparison: Use Double.compare() for precise comparison
-         */
-        @Override
-        public boolean equals(Object obj) {
-            // Step 1: Reference Check - if both references point to the same object
-            if (this == obj) {
-                return true;
-            }
-            
-            // Step 2: Null Check - if the compared object is null
-            if (obj == null) {
-                return false;
-            }
-            
-            // Step 3: Type Check - if objects are not of the same type
-            if (this.getClass() != obj.getClass()) {
-                return false;
-            }
-            
-            // Step 4: Value Comparison - safely cast and compare double values
-            Feet other = (Feet) obj;
-            return Double.compare(this.value, other.value) == 0;
+            super(value, Length.LengthUnit.FEET);
         }
     }
-    
+
     /**
-     * Main method to demonstrate Feet equality check
-     * @param args command line arguments (not used)
+     * Backward-compatible wrapper for UC2 tests and usage.
      */
+    public static class Inches extends Length {
+        public Inches(double value) {
+            super(value, Length.LengthUnit.INCHES);
+        }
+    }
+
+    public static boolean demonstrateLengthEquality(Length length1, Length length2) {
+        return length1.equals(length2);
+    }
+
+    public static void demonstrateFeetEquality() {
+        Length length1 = new Length(1.0, Length.LengthUnit.FEET);
+        Length length2 = new Length(1.0, Length.LengthUnit.FEET);
+        System.out.println("Input: Quantity(1.0, FEET) and Quantity(1.0, FEET)");
+        System.out.println("Output: Equal (" + demonstrateLengthEquality(length1, length2) + ")");
+    }
+
+    public static void demonstrateInchesEquality() {
+        Length length1 = new Length(1.0, Length.LengthUnit.INCHES);
+        Length length2 = new Length(1.0, Length.LengthUnit.INCHES);
+        System.out.println("Input: Quantity(1.0, INCHES) and Quantity(1.0, INCHES)");
+        System.out.println("Output: Equal (" + demonstrateLengthEquality(length1, length2) + ")");
+    }
+
+    public static void demonstrateFeetInchesComparison() {
+        Length length1 = new Length(1.0, Length.LengthUnit.FEET);
+        Length length2 = new Length(12.0, Length.LengthUnit.INCHES);
+        System.out.println("Input: Quantity(1.0, FEET) and Quantity(12.0, INCHES)");
+        System.out.println("Output: Equal (" + demonstrateLengthEquality(length1, length2) + ")");
+    }
+
     public static void main(String[] args) {
-        // Test Case 1: Same Values
-        Feet feet1 = new Feet(1.0);
-        Feet feet2 = new Feet(1.0);
-        System.out.println("Input: 1.0 ft and 1.0 ft");
-        System.out.println("Output: " + (feet1.equals(feet2) ? "Equal (true)" : "Not Equal (false)"));
+        demonstrateFeetEquality();
+        demonstrateInchesEquality();
+        demonstrateFeetInchesComparison();
     }
 }
