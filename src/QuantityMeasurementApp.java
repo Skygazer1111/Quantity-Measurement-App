@@ -3,6 +3,7 @@
  */
 package com.apps.quantitymeasurement;
 
+
 public class QuantityMeasurementApp {
 
     /**
@@ -11,6 +12,11 @@ public class QuantityMeasurementApp {
     public static class Feet extends Length {
         public Feet(double value) {
             super(value, Length.LengthUnit.FEET);
+        }
+
+        @Override
+        public int hashCode() {
+            return Double.hashCode(value);
         }
     }
 
@@ -52,5 +58,17 @@ public class QuantityMeasurementApp {
         demonstrateFeetEquality();
         demonstrateInchesEquality();
         demonstrateFeetInchesComparison();
+    }
+
+    public static void demonstrateInchesEquality() {
+        Inches inch1 = new Inches(1.0);
+        Inches inch2 = new Inches(1.0);
+        System.out.println("Input: 1.0 inch and 1.0 inch");
+        System.out.println("Output: " + (inch1.equals(inch2) ? "Equal (true)" : "Not Equal (false)"));
+    }
+
+    public static void main(String[] args) {
+        demonstrateFeetEquality();
+        demonstrateInchesEquality();
     }
 }
