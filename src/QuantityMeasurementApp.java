@@ -1,5 +1,5 @@
 /**
- * QuantityMeasurementApp - UC3: Unified Quantity Measurement System.
+ * QuantityMeasurementApp - UC4: Extended Unit Support.
  */
 package com.apps.quantitymeasurement;
 
@@ -20,6 +20,18 @@ public class QuantityMeasurementApp {
     public static class Inches extends Length {
         public Inches(double value) {
             super(value, Length.LengthUnit.INCHES);
+        }
+    }
+
+    public static class Yards extends Length {
+        public Yards(double value) {
+            super(value, Length.LengthUnit.YARDS);
+        }
+    }
+
+    public static class Centimeters extends Length {
+        public Centimeters(double value) {
+            super(value, Length.LengthUnit.CENTIMETERS);
         }
     }
 
@@ -48,9 +60,25 @@ public class QuantityMeasurementApp {
         System.out.println("Output: Equal (" + demonstrateLengthEquality(length1, length2) + ")");
     }
 
+    public static void demonstrateYardsInchesComparison() {
+        Length length1 = new Length(1.0, Length.LengthUnit.YARDS);
+        Length length2 = new Length(36.0, Length.LengthUnit.INCHES);
+        System.out.println("Input: Quantity(1.0, YARDS) and Quantity(36.0, INCHES)");
+        System.out.println("Output: Equal (" + demonstrateLengthEquality(length1, length2) + ")");
+    }
+
+    public static void demonstrateCentimetersInchesComparison() {
+        Length length1 = new Length(1.0, Length.LengthUnit.CENTIMETERS);
+        Length length2 = new Length(0.393701, Length.LengthUnit.INCHES);
+        System.out.println("Input: Quantity(1.0, CENTIMETERS) and Quantity(0.393701, INCHES)");
+        System.out.println("Output: Equal (" + demonstrateLengthEquality(length1, length2) + ")");
+    }
+
     public static void main(String[] args) {
         demonstrateFeetEquality();
         demonstrateInchesEquality();
         demonstrateFeetInchesComparison();
+        demonstrateYardsInchesComparison();
+        demonstrateCentimetersInchesComparison();
     }
 }

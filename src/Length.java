@@ -4,12 +4,16 @@
 package com.apps.quantitymeasurement;
 
 public class Length {
+    private static final double EQUALITY_TOLERANCE = 1e-9;
+
     private final double value;
     private final LengthUnit unit;
 
     public enum LengthUnit {
         FEET(12.0),
-        INCHES(1.0);
+        INCHES(1.0),
+        YARDS(36.0),
+        CENTIMETERS(0.393701);
 
         private final double conversionFactor;
 
@@ -59,11 +63,14 @@ public class Length {
         }
 
         Length other = (Length) obj;
-        return Double.compare(this.convertToBaseUnit(), other.convertToBaseUnit()) == 0;
+        double leftInInches = this.convertToBaseUnit();
+        double rightInInches = other.convertToBaseUnit();
+        return Math.abs(leftInInches - rightInInches) <= EQUALITY_TOLERANCE;
     }
 
     @Override
     public int hashCode() {
-        return Double.hashCode(convertToBaseUnit());
+        long normalizedValue = Math.round(convertToBaseUnit() / EQUALITY_TOLERANCE);
+        return Long.hashCode(normalizedValue);
     }
 }
