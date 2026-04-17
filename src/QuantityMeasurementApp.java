@@ -1,37 +1,17 @@
 /**
- * QuantityMeasurementApp - UC2: Feet and Inches measurement equality
- *
- * This class checks equality of two numerical values measured in feet and
- * separately checks equality of two numerical values measured in inches.
+ * QuantityMeasurementApp - UC3: Unified Quantity Measurement System.
  */
 package com.apps.quantitymeasurement;
 
 
 public class QuantityMeasurementApp {
 
-    /** Inner class to represent Feet measurement. */
-    public static class Feet {
-        private final double value;
-
+    /**
+     * Backward-compatible wrapper for UC1 tests and usage.
+     */
+    public static class Feet extends Length {
         public Feet(double value) {
-            validateFinite(value, "Feet");
-            this.value = value;
-        }
-
-        @Override
-        public boolean equals(Object obj) {
-            if (this == obj) {
-                return true;
-            }
-            if (obj == null) {
-                return false;
-            }
-            if (this.getClass() != obj.getClass()) {
-                return false;
-            }
-
-            Feet other = (Feet) obj;
-            return Double.compare(this.value, other.value) == 0;
+            super(value, Length.LengthUnit.FEET);
         }
 
         @Override
@@ -40,48 +20,44 @@ public class QuantityMeasurementApp {
         }
     }
 
-    /** Inner class to represent Inches measurement. */
-    public static class Inches {
-        private final double value;
-
+    /**
+     * Backward-compatible wrapper for UC2 tests and usage.
+     */
+    public static class Inches extends Length {
         public Inches(double value) {
-            validateFinite(value, "Inches");
-            this.value = value;
-        }
-
-        @Override
-        public boolean equals(Object obj) {
-            if (this == obj) {
-                return true;
-            }
-            if (obj == null) {
-                return false;
-            }
-            if (this.getClass() != obj.getClass()) {
-                return false;
-            }
-
-            Inches other = (Inches) obj;
-            return Double.compare(this.value, other.value) == 0;
-        }
-
-        @Override
-        public int hashCode() {
-            return Double.hashCode(value);
+            super(value, Length.LengthUnit.INCHES);
         }
     }
 
-    private static void validateFinite(double value, String unit) {
-        if (Double.isNaN(value) || Double.isInfinite(value)) {
-            throw new IllegalArgumentException(unit + " value must be a finite numeric value");
-        }
+    public static boolean demonstrateLengthEquality(Length length1, Length length2) {
+        return length1.equals(length2);
     }
 
     public static void demonstrateFeetEquality() {
-        Feet feet1 = new Feet(1.0);
-        Feet feet2 = new Feet(1.0);
-        System.out.println("Input: 1.0 ft and 1.0 ft");
-        System.out.println("Output: " + (feet1.equals(feet2) ? "Equal (true)" : "Not Equal (false)"));
+        Length length1 = new Length(1.0, Length.LengthUnit.FEET);
+        Length length2 = new Length(1.0, Length.LengthUnit.FEET);
+        System.out.println("Input: Quantity(1.0, FEET) and Quantity(1.0, FEET)");
+        System.out.println("Output: Equal (" + demonstrateLengthEquality(length1, length2) + ")");
+    }
+
+    public static void demonstrateInchesEquality() {
+        Length length1 = new Length(1.0, Length.LengthUnit.INCHES);
+        Length length2 = new Length(1.0, Length.LengthUnit.INCHES);
+        System.out.println("Input: Quantity(1.0, INCHES) and Quantity(1.0, INCHES)");
+        System.out.println("Output: Equal (" + demonstrateLengthEquality(length1, length2) + ")");
+    }
+
+    public static void demonstrateFeetInchesComparison() {
+        Length length1 = new Length(1.0, Length.LengthUnit.FEET);
+        Length length2 = new Length(12.0, Length.LengthUnit.INCHES);
+        System.out.println("Input: Quantity(1.0, FEET) and Quantity(12.0, INCHES)");
+        System.out.println("Output: Equal (" + demonstrateLengthEquality(length1, length2) + ")");
+    }
+
+    public static void main(String[] args) {
+        demonstrateFeetEquality();
+        demonstrateInchesEquality();
+        demonstrateFeetInchesComparison();
     }
 
     public static void demonstrateInchesEquality() {
